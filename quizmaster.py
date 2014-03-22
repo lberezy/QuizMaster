@@ -15,6 +15,30 @@ R4reader = csv.reader(RoundFour)
 score = 1000
 name = ""
 
+def barchart(data, chart_symbol="|", maxwidth=80, reversed=False):
+	''' Formats {"string":int, "string":int, ...} dictionaries as horizontal barchart
+	char.
+
+	@lberezy.
+	'''
+
+	fmt = '{0:{key_width}\: {symbol}:{size}}'
+	key_maxlen = 0
+	value_max = max(data.values())
+	keys = []
+	key_maxlen = max(len(x) for x in data.keys())
+	maxwidth -= (key_maxlen + 3)
+
+	for key, value in data.items():
+		keys.append(key)
+		data[key] = value * (maxwidth / value_max)
+	keys.sort(reverse=reversed)
+
+	for key in keys:
+		print('{0:>{key_maxlen}} : '.format(key, data[key], key_maxlen=key_maxlen), end="")
+		print(int(data[key]) * chart_symbol)
+
+
 def title():
 	for row in TitleFile:
 		print(row[0])
